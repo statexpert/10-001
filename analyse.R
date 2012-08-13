@@ -14,29 +14,6 @@ rownames(cor.out) <- c("rho", "p")
 sign.cor <- cor.out[,cor.out[2,] < 0.05]
 print(sign.cor)
 
-# Определяем тип распределения
-y <- as.numeric(dt$ln.K.)
-library("gamlss")
-fits <- fitDist(y, type = "realAll", try.gamlss=TRUE)$fits
-print(fits)
-dist <- "SHASHo"
-histDist(y, family = dist, density = TRUE)
-fit <- gamlssML(y, family = dist)
-#fit <- gamlss(y ~ 1, family = dist)
-print(fit)
-x <- rSHASHo(n = 1000, mu = fit$mu.coefficients, sigma = exp(fit$sigma.coefficients), nu = fit$nu.coefficients, tau = exp(fit$tau.coefficients))
-plot(density(y), col = "red")
-lines(density(x), col = "blue")
-
-dist <- "exGAUS"
-histDist(y, family = dist, density = TRUE)
-fit <- gamlssML(y, family = dist)
-fit <- gamlss(y ~ 1, family = dist)
-print(fit)
-x <- rexGAUS(n = 1000, mu = fit$mu.coefficients, sigma = exp(fit$sigma.coefficients), nu = exp(fit$nu.coefficients))
-plot(density(y), col = "red")
-lines(density(x), col = "blue")
-
 fit <- lm(ln.K. ~  Cr + Cu + Fe + Fe.Cr + Mo + Nb + Ni + O2+ P + Si + Sn +  Zr, data = dt)
 stepfit <- step(fit, direction="both")
 summary(stepfit)
